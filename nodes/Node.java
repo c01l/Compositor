@@ -8,6 +8,26 @@ import nodes.singals.SignalOutputInterface;
 import utils.Logging;
 import utils.Logging.LogLevel;
 
+/**
+ * A node is the central component of this compositor architecture.
+ * 
+ * Each {@link Node} has the following elements:
+ * <ul>
+ * <li>A set of input and output interfaces for data.</li>
+ * <li>A {@link SignalInputInterface} for recieving signals that trigger the
+ * code of the {@link Node} to execute.</li>
+ * <li>A {@link SignalOutputInterface} which will get a {@link Signal} as soon
+ * as the node has finished executing its code and want to pass the signal. You
+ * can specify that the {@link Signal} is kept and this execution flow will not
+ * be executed any further.</li>
+ * <li>An Exception-{@link SignalOutputInterface} that will recieve a
+ * {@link Signal} in case your code returns the exception status.</li>
+ * <li>Code that is executed, when a {@link Signal} is recieved.</li>
+ * </ul>
+ * 
+ * @author Roland Wallner
+ *
+ */
 public abstract class Node {
 
 	private SignalInputInterface sig_in;
@@ -38,8 +58,7 @@ public abstract class Node {
 	public void start(Signal s, SignalInputInterface caller) {
 		Logging.log(LogLevel.INFO, "Started", this.getClass().getName());
 		ReturnCode ret = this.run();
-		Logging.log(LogLevel.INFO, "Finished with " + ret.name(), this
-				.getClass().getName());
+		Logging.log(LogLevel.INFO, "Finished with " + ret.name(), this.getClass().getName());
 
 		switch (ret) {
 		case NOSIGNAL:
@@ -51,7 +70,7 @@ public abstract class Node {
 			this.ex_out.passSignal(s);
 			break;
 		default:
-			assert (false);
+			assert(false);
 		}
 
 	}
@@ -64,6 +83,16 @@ public abstract class Node {
 		return this.sig_in;
 	}
 
+	/**
+	 * This method registers a new {@link NodeInputInterface} in the node.
+	 * 
+	 * @param name
+	 *            A name that is assigned to the interface (must be UNIQUE)
+	 * @param i
+	 *            The interface you want to store
+	 * @throws IllegalArgumentException
+	 *             if the name of the interface is already registered
+	 */
 	protected void registerInput(String name, NodeInputInterface i) {
 		if (this.inputs.containsKey(name)) {
 			throw new IllegalArgumentException(name + " is already registered.");
@@ -72,6 +101,16 @@ public abstract class Node {
 		}
 	}
 
+	/**
+	 * This method registers a new {@link NodeOutputInterface} in the node.
+	 * 
+	 * @param name
+	 *            A name that is assigned to the interface (must be UNIQUE)
+	 * @param o
+	 *            The interface you want to store
+	 * @throws IllegalArgumentException
+	 *             if the name of the interface is already registered
+	 */
 	protected void registerOutput(String name, NodeOutputInterface o) {
 		if (this.outputs.containsKey(name)) {
 			throw new IllegalArgumentException(name + " is already registered.");
@@ -80,52 +119,100 @@ public abstract class Node {
 		}
 	}
 
+	/**
+	 * This method removes a {@link NodeInputInterface} from the node by its
+	 * name
+	 * 
+	 * @param name
+	 *            The name of the interface
+	 * @return The removed interface is returned, but it is already destroyed,
+	 *         so it can't be assigned to a new {@link Node}. If the
+	 *         {@link Node} does not contain an interface with this name,
+	 *         <code>null</code> is returned.
+	 */
 	protected NodeInputInterface removeInput(String name) {
 		NodeInputInterface ret = this.inputs.remove(name);
 		if (ret == null) {
-			throw new IllegalArgumentException(name + " is not registered.");
+			return null;
 		} else {
 			ret.destroy();
 			return ret;
 		}
 	}
 
+	/**
+	 * This method removes a {@link NodeOutputInterface} from the node by its
+	 * name.
+	 * 
+	 * @param name
+	 *            The name of the interface
+	 * @return The removed interface is returned, but it is already destroyed,
+	 *         so it can't be assigned to a new {@link Node}. If the
+	 *         {@link Node} does not contain an interface with this name,
+	 *         <code>null</code> is returned.
+	 */
 	protected NodeOutputInterface removeOutput(String name) {
 		NodeOutputInterface ret = this.outputs.remove(name);
 		if (ret == null) {
-			throw new IllegalArgumentException(name + " is not registered.");
+			return null;
 		} else {
 			ret.destroy();
 			return ret;
 		}
 	}
 
+	/**
+	 * This method searches for a {@link NodeInputInterface} that is registered
+	 * to the {@link Node}.
+	 * 
+	 * @param name
+	 *            The interface-name you want to look for
+	 * @return the interface if the interface is found, <code>null</code>
+	 *         otherwise
+	 */
 	public NodeInputInterface getInput(String name) {
-		NodeInputInterface ret = this.inputs.get(name);
-		if (ret == null) {
-			throw new IllegalArgumentException(name + " is not registered.");
-		} else {
-			return ret;
-		}
+		return this.inputs.get(name);
 	}
 
+	/**
+	 * This method searches for a {@link NodeOutputInterface} that is registered
+	 * to the {@link Node}.
+	 * 
+	 * @param name
+	 *            The interface-name you want to look for
+	 * @return the interface if the interface is found, <code>null</code>
+	 *         otherwise
+	 */
 	public NodeOutputInterface getOutput(String name) {
-		NodeOutputInterface ret = this.outputs.get(name);
-		if (ret == null) {
-			throw new IllegalArgumentException(name + " is not registered.");
-		} else {
-			return ret;
-		}
+		return this.outputs.get(name);
 	}
 
+	/**
+	 * This method stops the {@link SignalInputInterface}, so no new
+	 * {@link Signal}s can be received.
+	 * 
+	 * This method has to be called when this node is freed!
+	 */
 	public void destroy() {
-		this.sig_in.stop();
+		this.sig_in.destroy();
 	}
 
+	/**
+	 * Returns all {@link NodeInputInterface}s with their names as a
+	 * {@link HashMap}.
+	 * 
+	 * @return
+	 */
 	public HashMap<String, NodeInputInterface> getInputs() {
 		return this.inputs;
 	}
 
+	/**
+	 * Returns all {@link NodeOutputInterface}s with their names as a
+	 * {@link HashMap}.
+	 * 
+	 * @return
+	 */
 	public HashMap<String, NodeOutputInterface> getOutputs() {
 		return this.outputs;
 	}

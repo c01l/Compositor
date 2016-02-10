@@ -2,6 +2,13 @@ package utils;
 
 import java.io.PrintStream;
 
+/**
+ * This Logging-Class is used by this Compositor-Project so if you want to show
+ * some debug-information just set the active-variable to <code>true</code>.
+ * 
+ * @author Roland Wallner
+ *
+ */
 public final class Logging {
 
 	public static boolean active = false;

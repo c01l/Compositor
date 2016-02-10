@@ -3,6 +3,17 @@ package nodes.singals;
 import java.util.ArrayList;
 import java.util.LinkedList;
 
+/**
+ * A {@link SignalSyncronizer} is an object that is used to gather and spread
+ * {@link Signal}s.
+ * 
+ * It waites for {@link Signal}-Tokens an all inputs. When every input has at
+ * least one {@link Signal}, one on each input is removed and every output
+ * receives a new {@link Signal}-Token.
+ * 
+ * @author Roland Wallner
+ *
+ */
 public class SignalSyncronizer {
 
 	private ArrayList<SyncronizerInput> sig_ins;
@@ -44,10 +55,23 @@ public class SignalSyncronizer {
 		return this.sig_outs;
 	}
 
-	private synchronized void checkContinue() {
-		// System.out.println("Check input (" + sig_ins.size() + "," +
-		// sig_outs.size() +")");
+	public int getInputSize() {
+		return this.sig_ins.size();
+	}
 
+	public int getOutputSize() {
+		return this.sig_outs.size();
+	}
+
+	public SignalOutputInterface getOutput(int i) {
+		return this.sig_outs.get(i);
+	}
+
+	public SignalReciever getInput(int i) {
+		return this.sig_ins.get(i);
+	}
+
+	private synchronized void checkContinue() {
 		boolean done = true;
 		for (SyncronizerInput i : this.sig_ins) {
 			if (i.getSignal() == null) {
@@ -119,6 +143,7 @@ public class SignalSyncronizer {
 			this.connection.remove(o);
 		}
 
+		@Override
 		public void destroy() {
 			for (SignalOutputInterface o : this.connection) {
 				o.setConnection(null);

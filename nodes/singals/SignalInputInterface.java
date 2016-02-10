@@ -69,7 +69,8 @@ public class SignalInputInterface extends NodeInterface implements
 		}
 	}
 
-	public void stop() {
+	@Override
+	public void destroy() {
 		this.myThread.interrupt();
 
 		for (SignalOutputInterface o : this.connections) {

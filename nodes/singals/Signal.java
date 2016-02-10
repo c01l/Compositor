@@ -4,6 +4,13 @@ import java.util.Iterator;
 
 import nodes.Node;
 
+/**
+ * A {@link Signal} is an object that is used to specify when the code of a
+ * {@link Node} should be executed.
+ * 
+ * @author Roland Wallner
+ *
+ */
 public class Signal {
 	/**
 	 * Syncronizes given outputs and inputs
