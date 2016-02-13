@@ -4,6 +4,13 @@ import nodes.Node;
 import nodes.NodeInputInterface;
 import nodes.ReturnCode;
 
+/**
+ * A {@link NumberOutputNode} is a {@link Node} that prints an {@link Integer}
+ * to stdout.
+ * 
+ * @author Roland Wallner
+ *
+ */
 public class NumberOutputNode extends Node {
 
 	private NodeInputInterface input;

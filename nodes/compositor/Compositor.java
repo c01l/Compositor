@@ -223,6 +223,9 @@ public class Compositor extends Node {
 		super.destroy();
 	}
 
+	/**
+	 * 
+	 */
 	@Override
 	protected void registerInput(String name, NodeInputInterface i) {
 		super.registerInput(name, i);
