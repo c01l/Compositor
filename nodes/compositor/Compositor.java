@@ -10,10 +10,10 @@ import nodes.NodeInputInterface;
 import nodes.NodeInterface;
 import nodes.NodeOutputInterface;
 import nodes.ReturnCode;
-import nodes.singals.Signal;
-import nodes.singals.SignalOutputInterface;
-import nodes.singals.SignalReciever;
-import nodes.singals.SignalSyncronizer;
+import nodes.signals.Signal;
+import nodes.signals.SignalOutputInterface;
+import nodes.signals.SignalReciever;
+import nodes.signals.SignalSyncronizer;
 import utils.Logging;
 import utils.Logging.LogLevel;
 

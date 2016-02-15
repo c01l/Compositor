@@ -1,4 +1,4 @@
-package nodes.singals;
+package nodes.signals;
 
 import java.util.ArrayList;
 import java.util.LinkedList;

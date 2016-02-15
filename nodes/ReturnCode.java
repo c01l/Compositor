@@ -1,6 +1,6 @@
 package nodes;
 
-import nodes.singals.Signal;
+import nodes.signals.Signal;
 
 /**
  * This enum is used to specify the return stati of the code that is executed by

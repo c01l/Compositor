@@ -1,4 +1,4 @@
-package nodes.singals;
+package nodes.signals;
 
 public interface SignalReciever {
 	/**

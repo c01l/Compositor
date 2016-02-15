@@ -2,9 +2,9 @@ package nodes;
 
 import java.util.HashMap;
 
-import nodes.singals.Signal;
-import nodes.singals.SignalInputInterface;
-import nodes.singals.SignalOutputInterface;
+import nodes.signals.Signal;
+import nodes.signals.SignalInputInterface;
+import nodes.signals.SignalOutputInterface;
 import utils.Logging;
 import utils.Logging.LogLevel;
 

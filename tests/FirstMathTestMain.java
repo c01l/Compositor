@@ -2,9 +2,9 @@ package tests;
 
 import nodes.Node;
 import nodes.compositor.Compositor;
-import nodes.singals.Signal;
-import nodes.singals.SignalOutputInterface;
-import nodes.singals.SignalReciever;
+import nodes.signals.Signal;
+import nodes.signals.SignalOutputInterface;
+import nodes.signals.SignalReciever;
 import tests.nodes.NumberAddNode;
 import tests.nodes.NumberInputNode;
 import tests.nodes.NumberOutputNode;
