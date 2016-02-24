@@ -14,14 +14,14 @@ public class NodeInputInterface extends NodeInterface {
 	 *            The data type for this interface
 	 * @param defaultValue
 	 *            The default value that is given to the {@link Node} as long as
-	 *            no connection is established
+	 *            no connection is established (<code>null</code> is allowed!)
 	 * @throws IllegalArgumentException
 	 *             if the default value is not of the type specified for this
 	 *             {@link Node}
 	 */
 	public NodeInputInterface(Class<?> type, Object defaultValue) {
 		super(type);
-		if (!type.isInstance(defaultValue)) {
+		if (defaultValue != null && !type.isInstance(defaultValue)) {
 			throw new IllegalArgumentException(defaultValue + " is not an object of " + type.getName());
 		}
 		this.defaultValue = defaultValue;

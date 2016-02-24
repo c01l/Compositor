@@ -37,12 +37,12 @@ public class NodeOutputInterface extends NodeInterface {
 	 * called with a different {@link Object}.
 	 * 
 	 * @param value
-	 *            The curent value for this interface
+	 *            The curent value for this interface (<code>null</code> is allowed!)
 	 * @throws IllegalArgumentException
 	 *             in case mismatching data is supplied
 	 */
 	public void setValue(Object value) {
-		if (this.getType().isInstance(value)) {
+		if (value == null || this.getType().isInstance(value)) {
 			this.value = value;
 		} else {
 			throw new IllegalArgumentException("Invalid Type");
