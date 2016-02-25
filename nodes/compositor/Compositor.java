@@ -31,6 +31,8 @@ import utils.Logging.LogLevel;
  */
 public class Compositor extends Node {
 
+	// TODO add getInnerInput(String name), getInnerOutput(String name)
+	
 	/**
 	 * Nodes that are managed by this {@link Compositor}
 	 */
@@ -227,6 +229,14 @@ public class Compositor extends Node {
 		}
 
 		return ret;
+	}
+	
+	public NodeOutputInterface getInnerInput(String name) {
+		return this.innerInputs.get(name);
+	}
+	
+	public NodeInputInterface getInnerOutput(String name) {
+		return this.innerOutputs.get(name);
 	}
 	
 	/**
