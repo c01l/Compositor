@@ -199,7 +199,7 @@ public class Compositor extends Node {
 	 * 
 	 * @return
 	 */
-	public SignalReciever getSignalEnd() {
+	public SignalInputInterface getSignalEnd() {
 		return this.end;
 	}
 
@@ -208,7 +208,7 @@ public class Compositor extends Node {
 	 * 
 	 * @return
 	 */
-	public SignalReciever getInnerExceptionReciever() {
+	public SignalInputInterface getInnerExceptionReciever() {
 		return this.exception;
 	}
 
