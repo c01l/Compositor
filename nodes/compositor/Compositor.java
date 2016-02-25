@@ -2,8 +2,10 @@ package nodes.compositor;
 
 import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.Iterator;
 import java.util.LinkedList;
 import java.util.List;
+import java.util.Map.Entry;
 
 import nodes.Node;
 import nodes.NodeInputInterface;
@@ -49,7 +51,7 @@ public class Compositor extends Node {
 	 * This {@link SignalReciever} is used to pass any recieved/generated
 	 * {@link Signal}s outside of the compositor.
 	 */
-	private SignalReciever end;
+	private SignalReciever end, exception;
 
 	/**
 	 * This {@link HashMap} organizes all inputs the {@link Compositor} can
@@ -73,6 +75,7 @@ public class Compositor extends Node {
 		this.nodes = new ArrayList<>();
 		this.start = new SignalOutputInterface();
 		this.end = new CompositorEndSignalReciever();
+		this.exception = new CompositorExceptionSignalReciever();
 
 		this.innerInputs = new HashMap<>();
 		this.innerOutputs = new HashMap<>();
@@ -198,6 +201,35 @@ public class Compositor extends Node {
 	}
 
 	/**
+	 * Returns the inner exception handler
+	 * 
+	 * @return
+	 */
+	public SignalReciever getInnerExceptionReciever() {
+		return this.exception;
+	}
+
+	public HashMap<String, NodeOutputInterface> getInnerInputs() {
+		HashMap<String, NodeOutputInterface> ret = new HashMap<>();
+
+		for (Entry<String, CompositorInputInterface> e : this.innerInputs.entrySet()) {
+			ret.put(e.getKey(), e.getValue());
+		}
+
+		return ret;
+	}
+
+	public HashMap<String, NodeInputInterface> getInnerOutputs() {
+		HashMap<String, NodeInputInterface> ret = new HashMap<>();
+
+		for (Entry<String, CompositorOutputInterface> e : this.innerOutputs.entrySet()) {
+			ret.put(e.getKey(), e.getValue());
+		}
+
+		return ret;
+	}
+	
+	/**
 	 * This method should be used to start the program flow in this
 	 * {@link Compositor}.
 	 */
@@ -220,6 +252,8 @@ public class Compositor extends Node {
 		for (Node n : this.nodes) {
 			n.destroy();
 		}
+		this.end.destroy();
+		this.exception.destroy();
 		super.destroy();
 	}
 
@@ -238,6 +272,38 @@ public class Compositor extends Node {
 		super.registerOutput(name, o);
 
 		this.innerOutputs.put(name, new CompositorOutputInterface(o));
+	}
+
+	@Override
+	protected NodeInputInterface removeInput(String name) {
+		NodeInputInterface ret = super.removeInput(name);
+
+		Iterator<Entry<String, CompositorInputInterface>> iter = this.innerInputs.entrySet().iterator();
+		while (iter.hasNext()) {
+			Entry<String, CompositorInputInterface> e = iter.next();
+			if (e.getKey().equals(name)) {
+				iter.remove();
+				break;
+			}
+		}
+
+		return ret;
+	}
+
+	@Override
+	protected NodeOutputInterface removeOutput(String name) {
+		NodeOutputInterface ret = super.removeOutput(name);
+
+		Iterator<Entry<String, CompositorOutputInterface>> iter = this.innerOutputs.entrySet().iterator();
+		while (iter.hasNext()) {
+			Entry<String, CompositorOutputInterface> e = iter.next();
+			if (e.getKey().equals(name)) {
+				iter.remove();
+				break;
+			}
+		}
+
+		return ret;
 	}
 
 	public void setEndCallback(CompositorFinishedCallback finishCallback) {
@@ -268,10 +334,39 @@ public class Compositor extends Node {
 		public void registerConnection(SignalOutputInterface o) {
 			// do nothing as this will not be deleted
 		}
-		
+
 		@Override
 		public void destroy() {
 			// do nothing as this will not be deleted
+			// any remaining inner edges will be removed by the time this is
+			// called. (so no work here...)
+		}
+	}
+
+	private class CompositorExceptionSignalReciever implements SignalReciever {
+		@Override
+		public void sendSignal(Signal s) {
+			if (endCallback != null)
+				endCallback.compositorRaisedAnException();
+
+			getExceptionOutput().passSignal(s);
+		}
+
+		@Override
+		public void removeConnection(SignalOutputInterface o) {
+			// do nothing as this will not be deleted
+		}
+
+		@Override
+		public void registerConnection(SignalOutputInterface o) {
+			// do nothing as this will not be deleted
+		}
+
+		@Override
+		public void destroy() {
+			// do nothing as this will not be deleted
+			// any remaining inner edges will be removed by the time this is
+			// called. (so no work here...)
 		}
 	}
 

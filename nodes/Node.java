@@ -82,6 +82,10 @@ public abstract class Node {
 	public SignalInputInterface getSignalInput() {
 		return this.sig_in;
 	}
+	
+	public SignalOutputInterface getExceptionOutput() {
+		return this.ex_out;
+	}
 
 	/**
 	 * This method registers a new {@link NodeInputInterface} in the node.
