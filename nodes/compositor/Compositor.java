@@ -13,6 +13,7 @@ import nodes.NodeInterface;
 import nodes.NodeOutputInterface;
 import nodes.ReturnCode;
 import nodes.signals.Signal;
+import nodes.signals.SignalInputInterface;
 import nodes.signals.SignalOutputInterface;
 import nodes.signals.SignalReciever;
 import nodes.signals.SignalSyncronizer;
@@ -32,7 +33,7 @@ import utils.Logging.LogLevel;
 public class Compositor extends Node {
 
 	// TODO add getInnerInput(String name), getInnerOutput(String name)
-	
+
 	/**
 	 * Nodes that are managed by this {@link Compositor}
 	 */
@@ -53,7 +54,7 @@ public class Compositor extends Node {
 	 * This {@link SignalReciever} is used to pass any recieved/generated
 	 * {@link Signal}s outside of the compositor.
 	 */
-	private SignalReciever end, exception;
+	private SignalInputInterface end, exception;
 
 	/**
 	 * This {@link HashMap} organizes all inputs the {@link Compositor} can
@@ -230,15 +231,15 @@ public class Compositor extends Node {
 
 		return ret;
 	}
-	
+
 	public NodeOutputInterface getInnerInput(String name) {
 		return this.innerInputs.get(name);
 	}
-	
+
 	public NodeInputInterface getInnerOutput(String name) {
 		return this.innerOutputs.get(name);
 	}
-	
+
 	/**
 	 * This method should be used to start the program flow in this
 	 * {@link Compositor}.
@@ -320,7 +321,11 @@ public class Compositor extends Node {
 		this.endCallback = finishCallback;
 	}
 
-	private class CompositorEndSignalReciever implements SignalReciever {
+	private class CompositorEndSignalReciever extends SignalInputInterface {
+		public CompositorEndSignalReciever() {
+			super(Signal.class);
+		}
+
 		@Override
 		public void sendSignal(Signal s) {
 			// update outputs
@@ -353,7 +358,12 @@ public class Compositor extends Node {
 		}
 	}
 
-	private class CompositorExceptionSignalReciever implements SignalReciever {
+	private class CompositorExceptionSignalReciever extends SignalInputInterface {
+
+		public CompositorExceptionSignalReciever() {
+			super(Signal.class);
+		}
+
 		@Override
 		public void sendSignal(Signal s) {
 			if (endCallback != null)

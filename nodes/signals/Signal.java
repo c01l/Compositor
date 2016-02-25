@@ -19,9 +19,9 @@ public class Signal {
 	 * @param ins
 	 * @return
 	 */
-	public static SignalSyncronizer sync(SignalOutputInterface[] outs, SignalReciever[] ins) {
+	public static SignalSyncronizer sync(SignalOutputInterface[] outs, SignalInputInterface[] ins) {
 		SignalSyncronizer s = new SignalSyncronizer(outs.length, ins.length);
-		Iterator<SignalReciever> sIns = s.getInputs().iterator();
+		Iterator<SignalInputInterface> sIns = s.getInputs().iterator();
 		Iterator<SignalOutputInterface> sOuts = s.getOutputs().iterator();
 
 		for (SignalOutputInterface o : outs) {
@@ -33,7 +33,7 @@ public class Signal {
 			o.setConnection(r);
 		}
 
-		for (SignalReciever i : ins) {
+		for (SignalInputInterface i : ins) {
 			if (!sOuts.hasNext())
 				assert(false);
 

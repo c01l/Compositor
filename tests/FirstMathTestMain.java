@@ -3,8 +3,8 @@ package tests;
 import nodes.Node;
 import nodes.compositor.Compositor;
 import nodes.signals.Signal;
+import nodes.signals.SignalInputInterface;
 import nodes.signals.SignalOutputInterface;
-import nodes.signals.SignalReciever;
 import tests.nodes.NumberAddNode;
 import tests.nodes.NumberInputNode;
 import tests.nodes.NumberOutputNode;
@@ -64,7 +64,7 @@ public class FirstMathTestMain {
 		 */
 		// start -> in1 & in2
 		SignalOutputInterface[] start = { comp.getSignalStart() };
-		SignalReciever[] insIn = { in1.getSignalInput(), in2.getSignalInput() };
+		SignalInputInterface[] insIn = { in1.getSignalInput(), in2.getSignalInput() };
 		comp.addSyncronizer(Signal.sync(start, insIn));
 
 		// in1 & in2 -> add

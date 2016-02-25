@@ -3,7 +3,7 @@ package nodes;
 import java.util.HashMap;
 
 import nodes.signals.Signal;
-import nodes.signals.SignalInputInterface;
+import nodes.signals.NodeSignalInputInterface;
 import nodes.signals.SignalOutputInterface;
 import utils.Logging;
 import utils.Logging.LogLevel;
@@ -14,7 +14,7 @@ import utils.Logging.LogLevel;
  * Each {@link Node} has the following elements:
  * <ul>
  * <li>A set of input and output interfaces for data.</li>
- * <li>A {@link SignalInputInterface} for recieving signals that trigger the
+ * <li>A {@link NodeSignalInputInterface} for recieving signals that trigger the
  * code of the {@link Node} to execute.</li>
  * <li>A {@link SignalOutputInterface} which will get a {@link Signal} as soon
  * as the node has finished executing its code and want to pass the signal. You
@@ -30,14 +30,14 @@ import utils.Logging.LogLevel;
  */
 public abstract class Node {
 
-	private SignalInputInterface sig_in;
+	private NodeSignalInputInterface sig_in;
 	private SignalOutputInterface sig_out, ex_out;
 
 	private HashMap<String, NodeInputInterface> inputs;
 	private HashMap<String, NodeOutputInterface> outputs;
 
 	public Node() {
-		this.sig_in = new SignalInputInterface(this);
+		this.sig_in = new NodeSignalInputInterface(this);
 		this.sig_out = new SignalOutputInterface();
 		this.ex_out = new SignalOutputInterface();
 
@@ -55,7 +55,7 @@ public abstract class Node {
 		return ReturnCode.SUCCESS;
 	};
 
-	public void start(Signal s, SignalInputInterface caller) {
+	public void start(Signal s, NodeSignalInputInterface caller) {
 		Logging.log(LogLevel.INFO, "Started", this.getClass().getName());
 		ReturnCode ret = this.run();
 		Logging.log(LogLevel.INFO, "Finished with " + ret.name(), this.getClass().getName());
@@ -79,7 +79,7 @@ public abstract class Node {
 		return this.sig_out;
 	}
 
-	public SignalInputInterface getSignalInput() {
+	public NodeSignalInputInterface getSignalInput() {
 		return this.sig_in;
 	}
 	
@@ -192,7 +192,7 @@ public abstract class Node {
 	}
 
 	/**
-	 * This method stops the {@link SignalInputInterface}, so no new
+	 * This method stops the {@link NodeSignalInputInterface}, so no new
 	 * {@link Signal}s can be received.
 	 * 
 	 * This method has to be called when this node is freed!

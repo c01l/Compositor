@@ -41,10 +41,10 @@ public class SignalSyncronizer {
 
 	}
 
-	public ArrayList<SignalReciever> getInputs() {
-		ArrayList<SignalReciever> ret = new ArrayList<>();
+	public ArrayList<SignalInputInterface> getInputs() {
+		ArrayList<SignalInputInterface> ret = new ArrayList<>();
 
-		for (SignalReciever r : this.sig_ins) {
+		for (SignalInputInterface r : this.sig_ins) {
 			ret.add(r);
 		}
 
@@ -99,13 +99,14 @@ public class SignalSyncronizer {
 		}
 	}
 
-	private class SyncronizerInput implements SignalReciever {
+	private class SyncronizerInput extends SignalInputInterface {
 
 		private Signal currentSignal = null;
 
 		private LinkedList<SignalOutputInterface> connection;
 
 		public SyncronizerInput() {
+			super(Signal.class);
 			this.connection = new LinkedList<>();
 		}
 
