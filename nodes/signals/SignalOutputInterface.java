@@ -40,7 +40,7 @@ public class SignalOutputInterface extends NodeInterface {
 		}
 	}
 
-	public SignalReciever getTarget() {
+	public SignalInputInterface getTarget() {
 		return this.next;
 	}
 	

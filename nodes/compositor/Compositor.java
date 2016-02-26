@@ -51,7 +51,7 @@ public class Compositor extends Node {
 	private SignalOutputInterface start;
 
 	/**
-	 * This {@link SignalReciever} is used to pass any recieved/generated
+	 * This {@link SignalInputInterface} is used to pass any recieved/generated
 	 * {@link Signal}s outside of the compositor.
 	 */
 	private SignalInputInterface end, exception;
@@ -193,7 +193,7 @@ public class Compositor extends Node {
 	}
 
 	/**
-	 * Any {@link Signal} passed to the returned {@link SignalReciever} by this
+	 * Any {@link Signal} passed to the returned {@link SignalInputInterface} by this
 	 * method, will be passed to the {@link SignalOutputInterface} of the whole
 	 * {@link Compositor}.
 	 * 

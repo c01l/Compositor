@@ -67,7 +67,7 @@ public class SignalSyncronizer {
 		return this.sig_outs.get(i);
 	}
 
-	public SignalReciever getInput(int i) {
+	public SignalInputInterface getInput(int i) {
 		return this.sig_ins.get(i);
 	}
 
