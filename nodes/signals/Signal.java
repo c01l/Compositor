@@ -28,7 +28,7 @@ public class Signal {
 			if (!sIns.hasNext())
 				assert(false);
 
-			SignalReciever r = sIns.next();
+			SignalInputInterface r = sIns.next();
 
 			o.setConnection(r);
 		}
@@ -71,7 +71,7 @@ public class Signal {
 	 * @param sigIn
 	 * @return
 	 */
-	public static void route(SignalOutputInterface sigOut, SignalReciever sigIn) {
+	public static void route(SignalOutputInterface sigOut, SignalInputInterface sigIn) {
 		sigOut.setConnection(sigIn);
 	}
 

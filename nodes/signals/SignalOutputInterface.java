@@ -6,7 +6,7 @@ import utils.Logging.LogLevel;
 
 public class SignalOutputInterface extends NodeInterface {
 
-	private SignalReciever next;
+	private SignalInputInterface next;
 
 	public SignalOutputInterface() {
 		super(Signal.class);
@@ -28,7 +28,7 @@ public class SignalOutputInterface extends NodeInterface {
 	 *            you can pass <code>null</code> if you want to remove any
 	 *            established connection.
 	 */
-	public void setConnection(SignalReciever target) {
+	public void setConnection(SignalInputInterface target) {
 		if(this.next != null) {
 			this.next.removeConnection(this);
 		}
