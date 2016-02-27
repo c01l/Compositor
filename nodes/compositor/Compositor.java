@@ -15,7 +15,6 @@ import nodes.ReturnCode;
 import nodes.signals.Signal;
 import nodes.signals.SignalInputInterface;
 import nodes.signals.SignalOutputInterface;
-import nodes.signals.SignalReciever;
 import nodes.signals.SignalSyncronizer;
 import utils.Logging;
 import utils.Logging.LogLevel;
@@ -31,8 +30,6 @@ import utils.Logging.LogLevel;
  * 
  */
 public class Compositor extends Node {
-
-	// TODO add getInnerInput(String name), getInnerOutput(String name)
 
 	/**
 	 * Nodes that are managed by this {@link Compositor}
