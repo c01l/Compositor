@@ -16,7 +16,7 @@ public class NumberOutputNode extends Node {
 	private NodeInputInterface input;
 
 	public NumberOutputNode() {
-		this.input = new NodeInputInterface(Integer.class, 0);
+		this.input = new NodeInputInterface(Object.class, 0);
 		this.registerInput("Input", this.input);
 	}
 

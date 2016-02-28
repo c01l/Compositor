@@ -51,7 +51,7 @@ public class NodeInputInterface extends NodeInterface {
 	 *             if the source is not a sub-type of the current type
 	 */
 	public void setConnection(NodeOutputInterface nSource) {
-		if (!nSource.getType().isAssignableFrom(this.getType())) {
+		if (nSource != null && !this.getType().isAssignableFrom(nSource.getType())) {
 			throw new IllegalArgumentException("Type mismatch");
 		}
 
