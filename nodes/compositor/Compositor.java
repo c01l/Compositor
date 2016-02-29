@@ -269,21 +269,21 @@ public class Compositor extends Node {
 	 * 
 	 */
 	@Override
-	protected void registerInput(String name, NodeInputInterface i) {
+	public void registerInput(String name, NodeInputInterface i) {
 		super.registerInput(name, i);
 
 		this.innerInputs.put(name, new CompositorInputInterface(i));
 	}
 
 	@Override
-	protected void registerOutput(String name, NodeOutputInterface o) {
+	public void registerOutput(String name, NodeOutputInterface o) {
 		super.registerOutput(name, o);
 
 		this.innerOutputs.put(name, new CompositorOutputInterface(o));
 	}
 
 	@Override
-	protected NodeInputInterface removeInput(String name) {
+	public NodeInputInterface removeInput(String name) {
 		NodeInputInterface ret = super.removeInput(name);
 
 		Iterator<Entry<String, CompositorInputInterface>> iter = this.innerInputs.entrySet().iterator();
@@ -299,7 +299,7 @@ public class Compositor extends Node {
 	}
 
 	@Override
-	protected NodeOutputInterface removeOutput(String name) {
+	public NodeOutputInterface removeOutput(String name) {
 		NodeOutputInterface ret = super.removeOutput(name);
 
 		Iterator<Entry<String, CompositorOutputInterface>> iter = this.innerOutputs.entrySet().iterator();
