@@ -4,6 +4,7 @@ import java.util.LinkedList;
 
 public class NodeOutputInterface extends NodeInterface {
 
+	private Object startValue;
 	private Object value;
 	private LinkedList<NodeInputInterface> connections;
 
@@ -22,7 +23,7 @@ public class NodeOutputInterface extends NodeInterface {
 	 */
 	public NodeOutputInterface(Class<?> type, Object value) {
 		super(type);
-		this.value = value;
+		this.value = this.startValue = value;
 
 		this.connections = new LinkedList<>();
 	}
@@ -37,7 +38,8 @@ public class NodeOutputInterface extends NodeInterface {
 	 * called with a different {@link Object}.
 	 * 
 	 * @param value
-	 *            The curent value for this interface (<code>null</code> is allowed!)
+	 *            The curent value for this interface (<code>null</code> is
+	 *            allowed!)
 	 * @throws IllegalArgumentException
 	 *             in case mismatching data is supplied
 	 */
@@ -68,6 +70,15 @@ public class NodeOutputInterface extends NodeInterface {
 			i.setConnection(null);
 		}
 		this.connections.clear();
+	}
+
+	/**
+	 * This method returns the start value of this interface.
+	 * 
+	 * @return
+	 */
+	public Object getStartValue() {
+		return this.startValue;
 	}
 
 }

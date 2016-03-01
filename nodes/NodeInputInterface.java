@@ -77,5 +77,12 @@ public class NodeInputInterface extends NodeInterface {
 	public void destroy() {
 		this.setConnection(null);
 	}
+	
+	/**
+	 * Returns the default value of this interface
+	 */
+	public Object getDefaultValue() {
+		return this.defaultValue;
+	}
 
 }
